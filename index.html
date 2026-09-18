@@ -48,6 +48,8 @@
     <!-- the sky above the nebula photo: two twinkling star layers and a
          couple of comets that cross every so often -->
     <div class="sky" aria-hidden="true">
+      <i class="nebula-haze h1"></i>
+      <i class="nebula-haze h2"></i>
       <i class="stars s1"></i>
       <i class="stars s2"></i>
       <i class="comet c1"></i>
@@ -96,11 +98,13 @@
        itself is always here, because every download button on the page now
        points at it and it has to be able to say so when the store is shut. -->
   <section id="buy" class="section buy" data-buy>
-    <h2>Get FocusLock</h2>
+    <h2>Buy FocusLock once</h2>
     <p class="buy-lede">
-      One payment, no subscription, no account. <strong data-buy-price>$0.99</strong>
-      — and the licence is the download: it fetches the installer whenever you
-      need it and activates the app on up to five of your own machines.
+      FocusLock is a one-time purchase: <strong data-buy-price>$0.99</strong>,
+      no subscription and no account to create. Your licence key is also how you
+      download the installer, so you can use it now or come back later if you
+      need to reinstall. The same key activates FocusLock on up to five of your
+      own machines.
     </p>
 
     <div class="buy-methods" data-buy-methods hidden>
@@ -122,7 +126,7 @@
     </div>
 
     <p class="buy-note" data-buy-closed hidden>
-      The store is not open yet, so there is no download to hand out.
+      The store is not open yet, so downloads are not being issued here.
       <a data-buy-home hidden href="https://faneeleaf.com/#buy">Buy it on faneeleaf.com</a>
     </p>
 
@@ -133,8 +137,8 @@
       <p class="buy-key"><code data-buy-key></code></p>
       <p><a class="btn btn-big" data-buy-download rel="noopener">Download FocusLock</a></p>
       <p class="fineprint">
-        Keep that key somewhere safe: it re-downloads the installer at any time
-        and activates the app on up to five machines.
+        Keep that key somewhere safe: it downloads the installer whenever you
+        need it and activates the app on up to five of your own machines.
       </p>
     </div>
 
@@ -143,7 +147,7 @@
          refused and nothing is sent. -->
     <form class="buy-form buy-again" action="api/download.php" method="get"
           data-buy-again hidden>
-      <label for="buy-key">Bought it already? Your licence key downloads it again.</label>
+      <label for="buy-key">Bought it already? Enter your licence key to download the installer again.</label>
       <input id="buy-key" name="key" required placeholder="FL-XXXXX-XXXXX-XXXXX-XXXXX"
              autocomplete="off" spellcheck="false" maxlength="40">
       <button class="btn" type="submit">Download again</button>
@@ -207,13 +211,17 @@
 
   <section class="gallery section">
     <figure>
-      <img src="assets/shot-money.webp" width="520" height="780"
-           alt="The money tab in month view: net profit for September, a quick-add row, a calendar where each day shows its net amount, and the month's entries listed below." loading="lazy">
+      <span class="shot-frame">
+        <img src="assets/shot-money.webp" width="520" height="780"
+             alt="The money tab in month view: net profit for September, a quick-add row, a calendar where each day shows its net amount, and the month's entries listed below." loading="lazy">
+      </span>
       <figcaption>The money tab — net profit, and a calendar that shows each day's total.</figcaption>
     </figure>
     <figure>
-      <img src="assets/shot-knight.webp" width="520" height="780"
-           alt="The same app in its Knight theme: an armoured knight striding through fog, the whole window bound in an ornate iron frame with a crimson banner across the title bar and stone panels beneath it." loading="lazy">
+      <span class="shot-frame">
+        <img src="assets/shot-knight.webp" width="520" height="780"
+             alt="The same app in its Knight theme: an armoured knight striding through fog, the whole window bound in an ornate iron frame with a crimson banner across the title bar and stone panels beneath it." loading="lazy">
+      </span>
       <figcaption>The Knight theme doesn't just repaint it — stone panels, an iron frame, a banner, and a knight marching through the fog behind it all.</figcaption>
     </figure>
   </section>

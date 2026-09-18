@@ -1,4 +1,64 @@
 'use strict';
+
+/* Motion is an enhancement, so the class that allows reveal states is added
+   here rather than baked into the HTML. If JavaScript is off, every section is
+   ordinary visible content. */
+(() => {
+  const root = document.documentElement;
+  root.classList.add('js');
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  root.classList.add('motion-ok');
+
+  const revealTargets = [
+    ...document.querySelectorAll('.strip-item, .buy, .card, .gallery figure, .steps li, .honest p, details, .closer img'),
+  ];
+
+  revealTargets.forEach((node, index) => {
+    node.classList.add('reveal');
+    node.style.setProperty('--reveal-delay', Math.min(index % 6, 4) * 45 + 'ms');
+  });
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    revealTargets.forEach((node) => observer.observe(node));
+  } else {
+    revealTargets.forEach((node) => node.classList.add('is-visible'));
+  }
+
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  let ticking = false;
+  const moveSky = () => {
+    ticking = false;
+    const rect = hero.getBoundingClientRect();
+    const travel = Math.max(-1, Math.min(1, (window.innerHeight / 2 - rect.top) / Math.max(rect.height, 1) - 0.5));
+    hero.style.setProperty('--hero-bg-x', (travel * 18).toFixed(2) + 'px');
+    hero.style.setProperty('--hero-bg-y', (travel * 34).toFixed(2) + 'px');
+    hero.style.setProperty('--hero-shot-y', (travel * -28).toFixed(2) + 'px');
+  };
+
+  const queueSky = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(moveSky);
+  };
+
+  moveSky();
+  window.addEventListener('scroll', queueSky, { passive: true });
+  window.addEventListener('resize', queueSky);
+})();
+
 /* One job: warn visitors who are clearly on another OS before they download a
    Windows installer. Everything else on this page is plain HTML and CSS, so it
    works with JavaScript switched off.

@@ -16,6 +16,8 @@
   --cyan: #7fb2ff;
   --green: #6dffab;
   --maxw: 1120px;
+  --edge: max(16px, env(safe-area-inset-left), calc((100vw - var(--maxw)) / 2));
+  --edge-right: max(16px, env(safe-area-inset-right), calc((100vw - var(--maxw)) / 2));
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,13 +36,29 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(900px 700px at 12% -10%, rgba(94, 64, 186, 0.22), transparent 62%),
+    radial-gradient(800px 560px at 88% 8%, rgba(40, 135, 188, 0.17), transparent 64%),
+    var(--bg);
   color: var(--text);
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(180, 154, 255, 0.11), transparent 22%),
+    radial-gradient(circle at 74% 48%, rgba(127, 178, 255, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 34%);
+  opacity: 0.85;
 }
 
 img { display: block; max-width: 100%; height: auto; }
@@ -68,12 +86,13 @@ code {
   align-items: center;
   gap: 24px;
   /* the max() keeps the bar clear of a notch in landscape */
-  padding: 12px max(16px, env(safe-area-inset-right), calc((100vw - var(--maxw)) / 2))
-           12px max(16px, env(safe-area-inset-left), calc((100vw - var(--maxw)) / 2));
-  background: rgba(5, 7, 15, 0.82);
+  padding: 12px var(--edge-right) 12px var(--edge);
+  background:
+    linear-gradient(180deg, rgba(11, 14, 30, 0.9), rgba(5, 7, 15, 0.76));
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--stroke);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.24);
 }
 
 .brand {
@@ -101,7 +120,9 @@ code {
 
 /* ---------- buttons ---------- */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 11px 20px;
   border-radius: 12px;
   border: 1px solid rgba(180, 154, 255, 0.55);
@@ -111,13 +132,15 @@ code {
   font-weight: 600;
   letter-spacing: 0.2px;
   box-shadow: 0 0 18px rgba(140, 100, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  transition: transform 0.25s cubic-bezier(0.34, 1.7, 0.5, 1), box-shadow 0.25s, border-color 0.25s;
+  transition: transform 0.25s cubic-bezier(0.34, 1.7, 0.5, 1), box-shadow 0.25s, border-color 0.25s, filter 0.25s;
+  will-change: transform;
 }
 
 .btn:hover {
   transform: translateY(-2px);
   border-color: rgba(220, 205, 255, 0.85);
   box-shadow: 0 0 28px rgba(150, 110, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  filter: saturate(1.08);
   text-decoration: none;
 }
 
@@ -138,12 +161,17 @@ code {
 /* ---------- hero ---------- */
 .hero {
   position: relative;
+  --hero-bg-x: 0px;
+  --hero-bg-y: 0px;
+  --hero-shot-y: 0px;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: 56px;
   align-items: center;
-  padding: 84px max(16px, calc((100vw - var(--maxw)) / 2)) 96px;
+  padding: 84px var(--edge-right) 96px var(--edge);
+  min-height: clamp(720px, 92vh, 980px);
   overflow: hidden;
+  isolation: isolate;
 }
 
 .hero::before {
@@ -155,6 +183,7 @@ code {
   background-size: cover;
   background-position: 65% 40%;
   z-index: -2;
+  will-change: transform;
 }
 
 /* Keeps the headline readable over the nebula and fades the sky into the page. */
@@ -215,8 +244,41 @@ h1 em {
   display: inline-block;
 }
 
+.hero-copy { max-width: 620px; }
+
+.hero-shot {
+  position: relative;
+  transform: translate3d(0, var(--hero-shot-y), 0);
+  will-change: transform;
+}
+
+.hero-shot::before,
+.hero-shot::after {
+  content: '';
+  position: absolute;
+  inset: 7% 2% 5%;
+  border-radius: 28px;
+  pointer-events: none;
+}
+
+.hero-shot::before {
+  background:
+    radial-gradient(closest-side, rgba(180, 154, 255, 0.36), rgba(180, 154, 255, 0) 72%),
+    radial-gradient(closest-side at 72% 22%, rgba(127, 178, 255, 0.25), rgba(127, 178, 255, 0) 60%);
+  filter: blur(26px);
+  transform: scale(1.12);
+}
+
+.hero-shot::after {
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
 /* the app window, floating in its own aura */
 .hero-shot img {
+  position: relative;
+  z-index: 1;
   border-radius: 16px;
   border: 1px solid var(--stroke-bright);
   box-shadow: 0 0 70px rgba(130, 90, 255, 0.3), 0 30px 70px rgba(0, 0, 8, 0.7);
@@ -227,14 +289,33 @@ h1 em {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1px;
-  background: var(--stroke);
+  background:
+    linear-gradient(90deg, transparent, rgba(127, 178, 255, 0.4), transparent),
+    var(--stroke);
   border-block: 1px solid var(--stroke);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .strip-item {
-  background: var(--bg);
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(16, 22, 48, 0.88), rgba(5, 7, 15, 0.96));
   padding: 22px 20px;
   text-align: center;
+  overflow: hidden;
+}
+
+.strip-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(180, 154, 255, 0.16), transparent 58%);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.strip-item:hover::before {
+  opacity: 1;
 }
 
 .strip-item strong { display: block; font-size: 19px; letter-spacing: 0.2px; }
@@ -242,7 +323,8 @@ h1 em {
 
 /* ---------- sections ---------- */
 .section {
-  padding: 84px max(16px, calc((100vw - var(--maxw)) / 2));
+  position: relative;
+  padding: 84px var(--edge-right) 84px var(--edge);
 }
 
 .section h2 {
@@ -258,21 +340,35 @@ h1 em {
 }
 
 .card {
+  position: relative;
   background: var(--panel);
   border: 1px solid var(--stroke);
   border-radius: 16px;
   padding: 24px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.34, 1.6, 0.5, 1), border-color 0.3s, box-shadow 0.3s;
 }
 
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(180, 154, 255, 0.13), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 32%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
 .card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
   border-color: var(--stroke-bright);
-  box-shadow: 0 0 26px rgba(120, 160, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24), 0 0 30px rgba(120, 160, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
 .card h3 {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -282,6 +378,8 @@ h1 em {
 
 .card p { font-size: 15px; color: #b9c6e2; }
 
+.card p { position: relative; }
+
 /* ---------- gallery ---------- */
 .gallery {
   display: grid;
@@ -290,20 +388,65 @@ h1 em {
   grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 40px;
   padding-top: 0;
+  perspective: 1200px;
 }
 
-.gallery figure { text-align: center; }
+.gallery figure {
+  position: relative;
+  text-align: center;
+}
+
+.shot-frame {
+  position: relative;
+  display: block;
+  width: min(100%, 370px);
+  margin: 0 auto 16px;
+  padding: 12px;
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02)),
+    rgba(10, 14, 30, 0.7);
+  border: 1px solid rgba(190, 220, 255, 0.22);
+  box-shadow: 0 24px 70px rgba(0, 0, 8, 0.55), 0 0 70px rgba(85, 90, 210, 0.18);
+  transform: rotateX(2deg) rotateY(-2deg);
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.5, 1), box-shadow 0.35s, border-color 0.35s;
+}
+
+.gallery figure:nth-child(even) .shot-frame {
+  transform: rotateX(2deg) rotateY(2deg);
+}
+
+.shot-frame::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(127, 178, 255, 0.28), transparent 72%);
+  filter: blur(28px);
+}
+
+.shot-frame:hover {
+  transform: translateY(-6px) rotateX(0) rotateY(0);
+  border-color: rgba(190, 220, 255, 0.42);
+  box-shadow: 0 34px 90px rgba(0, 0, 8, 0.62), 0 0 90px rgba(125, 105, 245, 0.25);
+}
 
 .gallery img {
-  margin: 0 auto 14px;
+  margin: 0 auto;
   width: 100%;
-  max-width: 330px;
+  max-width: none;
   border-radius: 14px;
   border: 1px solid var(--stroke);
-  box-shadow: 0 0 50px rgba(110, 80, 220, 0.22), 0 20px 50px rgba(0, 0, 8, 0.6);
+  box-shadow: 0 16px 40px rgba(0, 0, 8, 0.48);
 }
 
-.gallery figcaption { font-size: 14px; color: var(--muted); }
+.gallery figcaption {
+  max-width: 440px;
+  margin: 0 auto;
+  font-size: 14px;
+  color: var(--muted);
+}
 
 /* ---------- steps ---------- */
 .steps { list-style: none; counter-reset: step; display: grid; gap: 26px; max-width: 760px; }
@@ -336,7 +479,9 @@ h1 em {
 
 /* ---------- honest + faq ---------- */
 .honest {
-  background: rgba(12, 17, 36, 0.65);
+  background:
+    radial-gradient(620px 360px at 16% 0%, rgba(180, 154, 255, 0.13), transparent 64%),
+    rgba(12, 17, 36, 0.65);
   border-block: 1px solid var(--stroke);
 }
 
@@ -344,15 +489,20 @@ h1 em {
 .honest p + p { margin-top: 14px; }
 
 details {
+  position: relative;
   border: 1px solid var(--stroke);
   border-radius: 14px;
   background: var(--panel);
   padding: 4px 18px;
   margin-bottom: 12px;
   max-width: 820px;
+  overflow: hidden;
 }
 
-details[open] { border-color: var(--stroke-bright); }
+details[open] {
+  border-color: var(--stroke-bright);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
 
 summary {
   cursor: pointer;
@@ -382,7 +532,7 @@ details p { font-size: 15.5px; color: #b9c6e2; padding: 0 0 16px 26px; max-width
 /* ---------- closer ---------- */
 .closer {
   text-align: center;
-  padding: 96px 16px 104px;
+  padding: 96px var(--edge-right) 104px var(--edge);
   background:
     radial-gradient(60% 70% at 50% 0%, rgba(90, 60, 190, 0.35), rgba(5, 7, 15, 0) 70%),
     var(--bg);
@@ -412,8 +562,8 @@ footer {
 .hero::before { animation: nebula 90s ease-in-out infinite alternate; }
 
 @keyframes nebula {
-  from { transform: scale(1.06) translate3d(-10px, 0, 0); }
-  to   { transform: scale(1.11) translate3d(10px, -12px, 0); }
+  from { transform: translate3d(calc(var(--hero-bg-x) - 10px), var(--hero-bg-y), 0) scale(1.06); }
+  to   { transform: translate3d(calc(var(--hero-bg-x) + 10px), calc(var(--hero-bg-y) - 12px), 0) scale(1.11); }
 }
 
 /* the star layer sits over the veil but under the text */
@@ -427,6 +577,35 @@ footer {
 
 .hero-copy,
 .hero-shot { position: relative; z-index: 1; }
+
+.nebula-haze {
+  position: absolute;
+  width: 46vmax;
+  height: 46vmax;
+  border-radius: 50%;
+  filter: blur(34px);
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  animation: haze 18s ease-in-out infinite alternate;
+}
+
+.nebula-haze.h1 {
+  left: 48%;
+  top: 4%;
+  background: radial-gradient(circle, rgba(180, 154, 255, 0.62), rgba(180, 154, 255, 0) 68%);
+}
+
+.nebula-haze.h2 {
+  right: -10%;
+  bottom: 2%;
+  background: radial-gradient(circle, rgba(70, 190, 255, 0.42), rgba(70, 190, 255, 0) 66%);
+  animation-delay: -8s;
+}
+
+@keyframes haze {
+  from { transform: translate3d(-2%, 1%, 0) scale(0.94); }
+  to   { transform: translate3d(3%, -2%, 0) scale(1.06); }
+}
 
 /* each layer is one element: the stars are a painted box-shadow list,
    and only the layer's opacity animates */
@@ -586,31 +765,22 @@ h1 em,
   to   { opacity: 1;    transform: scale(1.08); }
 }
 
-/* ---- scroll-driven reveals ----
-   Behind @supports on purpose: where scroll-driven animation isn't
-   available nothing runs and every section is simply visible, which
-   is the one thing a download page must never get wrong. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .card,
-    .steps li,
-    .gallery figure,
-    .strip-item,
-    details,
-    .honest p,
-    .closer img {
-      animation: rise linear both;
-      animation-timeline: view();
-      animation-range: entry 6% cover 32%;
-    }
-
-    /* the strip reads as one row, so its cells rise together */
-    .strip-item { animation-range: entry 2% cover 22%; }
+/* ---- scroll reveals ----
+   The `.js.motion-ok` gate matters more than the animation. Without it,
+   a script failure or a no-JS visitor could strand the sales page invisible. */
+@media (prefers-reduced-motion: no-preference) {
+  .js.motion-ok .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.65s ease,
+      transform 0.65s cubic-bezier(0.18, 0.84, 0.28, 1);
+    transition-delay: var(--reveal-delay, 0ms);
   }
 
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: none; }
+  .js.motion-ok .reveal.is-visible {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -621,6 +791,7 @@ h1 em,
 @media (hover: none) {
   .btn:hover,
   .card:hover,
+  .shot-frame:hover,
   .chip:hover,
   .mtab:hover,
   .topbar nav a:hover { transform: none; }
@@ -685,18 +856,31 @@ h1 em,
 }
 
 /* ---------- buy panel ----------
-   Hidden by default in the markup and revealed by script.js only when
-   api/options.php reports a payment method that is really configured. */
+   Which payment methods appear is decided by api/options.php; the panel
+   itself is always on the page, because every download button points at it.
+
+   No max-width here, deliberately. .section is full-bleed and centres its
+   content with --edge, a padding that grows to (100vw - 1120px) / 2 - so a
+   border-box cap on the section subtracts that gutter from the text instead
+   of from the margins. It cost the buy panel 800px of its 1040 at a 1920
+   screen and left every paragraph 240px wide, reading as a column. Inner
+   elements set their own measure below, which is how every other section
+   here does it. */
 .buy {
-  max-width: 760px;
-  margin-inline: auto;
   text-align: center;
 }
 
+/* A measure wide enough that it never reads as a column, and no wider than
+   the eye can track back to the start of the next line: 860px put 92
+   characters on a line, which is a different kind of hard to read. */
 .buy-lede {
-  color: var(--muted);
-  margin: 0 auto 26px;
-  max-width: 52ch;
+  color: #c4cfea;
+  width: 100%;
+  max-width: 64ch;
+  margin: 0 auto 30px;
+  font-size: clamp(17px, 1.7vw, 19px);
+  line-height: 1.72;
+  text-wrap: pretty;
 }
 
 .buy-lede strong {
@@ -707,11 +891,13 @@ h1 em,
 .buy-methods {
   display: grid;
   gap: 22px;
+  width: 100%;
   justify-items: center;
 }
 
 .buy-crypto {
   width: 100%;
+  max-width: 580px;
   background: var(--panel);
   border: 1px solid var(--stroke);
   border-radius: 14px;
@@ -725,12 +911,13 @@ h1 em,
   color: var(--muted);
   font-size: 14px;
   margin: 0 auto 16px;
-  max-width: 46ch;
+  max-width: min(100%, 680px);
 }
 
 .buy-form {
   display: grid;
   gap: 12px;
+  width: 100%;
   justify-items: center;
 }
 
@@ -759,6 +946,11 @@ h1 em,
   box-shadow: 0 0 0 3px rgba(120, 160, 255, 0.22);
 }
 
+.buy-crypto .buy-form {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
 .buy-providers {
   display: flex;
   flex-wrap: wrap;
@@ -778,10 +970,13 @@ h1 em,
 
 .buy-done {
   margin-top: 26px;
+  margin-inline: auto;
+  max-width: 580px;
   background: var(--panel);
   border: 1px solid var(--stroke-bright);
   border-radius: 14px;
   padding: 24px;
+  width: 100%;
 }
 
 .buy-done h3 { color: var(--green); margin-bottom: 14px; }
@@ -816,6 +1011,8 @@ h1 em,
    the payment methods rather than hiding in a support page somewhere. */
 .buy-again {
   margin-top: 30px;
+  margin-inline: auto;
+  max-width: 680px;
   padding-top: 26px;
   border-top: 1px solid var(--stroke);
 }
