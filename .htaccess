@@ -39,4 +39,25 @@ RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
   Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
+# ---- the API lives under this same root ----
+# api/ resolves lib/ and storage/ as its own siblings (api/../lib), so the
+# whole server tree has to sit together. Nothing but api/ is reachable:
+
+# Secrets, schema and code are never served, wherever they end up.
+<FilesMatch "^(config\.php|config\.example\.php|schema\.sql)$">
+  Require all denied
+</FilesMatch>
+
+# lib/ is code and storage/ holds the installers, which only api/download.php
+# is allowed to hand out. Each also carries its own "Require all denied", so
+# this is the second of two locks.
+RedirectMatch 404 ^/(lib|storage)(/|$)
+
+# No directory listings anywhere.
+Options -Indexes
+
+<IfModule mod_headers.c>
+  Header always set X-Frame-Options "DENY"
+</IfModule>
+
 ErrorDocument 404 /index.html
