@@ -10,7 +10,10 @@
 <meta name="description" content="FocusLock disables the apps and websites that eat your day and keeps them disabled. A small native app for Windows Ã¢â‚¬â€ no browser bundled inside, no account, no tracking.">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/icon-256.png">
-<link rel="stylesheet" href="styles.css">
+<!-- ?v= is the cache-buster. These are cached hard at the edge and are not
+     content-addressed, so without it a fresh page loads week-old CSS and JS.
+     publish-release.ps1 keeps the number equal to the release. -->
+<link rel="stylesheet" href="styles.css?v=2.3.0">
 <!-- Link previews need absolute URLs; a relative one is ignored, so the
      live domain is baked in here. SITE_URL: change these three when the
      domain changes. -->
@@ -318,6 +321,6 @@
   <p>FocusLock Ã‚Â· built with Tauri Ã‚Â· no tracking on this page</p>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=2.3.0"></script>
 </body>
 </html>
