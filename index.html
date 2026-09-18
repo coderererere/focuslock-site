@@ -8,12 +8,13 @@
 <meta name="color-scheme" content="dark">
 <title>FocusLock — disable apps and websites until you turn them back on</title>
 <meta name="description" content="FocusLock disables the apps and websites that eat your day and keeps them disabled. A small native app for Windows — no browser bundled inside, no account, no tracking.">
+<link rel="canonical" href="https://faneeleaf.com/">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/icon-256.png">
 <!-- ?v= is the cache-buster. These are cached hard at the edge and are not
      content-addressed, so without it a fresh page loads week-old CSS and JS.
      publish-release.ps1 keeps the number equal to the release. -->
-<link rel="stylesheet" href="styles.css?v=2.7.0">
+<link rel="stylesheet" href="styles.css?v=2.8.0">
 <!-- Link previews need absolute URLs; a relative one is ignored, so the
      live domain is baked in here. SITE_URL: change these three when the
      domain changes. -->
@@ -39,7 +40,7 @@
     <a href="#honest">Limits</a>
     <a href="#faq">FAQ</a>
   </nav>
-  <a class="btn btn-small" href="https://github.com/coderererere/focuslock-site/releases/latest/download/FocusLock-Setup-x64.exe" data-download>Download</a>
+  <a class="btn btn-small" href="#buy" data-download>Get it · <span data-price>$0.99</span></a>
 </header>
 
 <main id="top">
@@ -61,8 +62,8 @@
         Set the lock timer and your own choices are out of reach until it runs out.
       </p>
       <div class="cta">
-        <a class="btn btn-big" href="https://github.com/coderererere/focuslock-site/releases/latest/download/FocusLock-Setup-x64.exe" data-download>
-          Download for Windows
+        <a class="btn btn-big" href="#buy" data-download>
+          Get FocusLock — <span data-price>$0.99</span>
         </a>
         <a class="btn btn-ghost btn-big" href="#install">How it works</a>
       </div>
@@ -87,17 +88,22 @@
     <div class="strip-item"><strong>Offline</strong><span>your data stays on your PC</span></div>
   </section>
 
-  <!-- The buy panel stays hidden until api/options.php says a payment method is
-       actually configured, so this page works unchanged before the gate is
-       live and lights up by itself afterwards. -->
-  <section id="buy" class="section buy" hidden data-buy>
-    <h2>Buy FocusLock</h2>
+  <!-- The only way to the installer. The file sits outside the web root and
+       api/download.php is the single thing that can reach it, so a licence is
+       not a formality on the page — it is what makes the bytes move.
+
+       Which payment methods appear is decided by api/options.php. The section
+       itself is always here, because every download button on the page now
+       points at it and it has to be able to say so when the store is shut. -->
+  <section id="buy" class="section buy" data-buy>
+    <h2>Get FocusLock</h2>
     <p class="buy-lede">
       One payment, no subscription, no account. <strong data-buy-price>$0.99</strong>
-      — and the licence activates the app on up to five of your own machines.
+      — and the licence is the download: it fetches the installer whenever you
+      need it and activates the app on up to five of your own machines.
     </p>
 
-    <div class="buy-methods">
+    <div class="buy-methods" data-buy-methods hidden>
       <a class="btn btn-big" data-buy-card hidden rel="noopener">Pay by card</a>
 
       <div class="buy-crypto" data-buy-crypto hidden>
@@ -115,6 +121,11 @@
       </div>
     </div>
 
+    <p class="buy-note" data-buy-closed hidden>
+      The store is not open yet, so there is no download to hand out.
+      <a data-buy-home hidden href="https://faneeleaf.com/#buy">Buy it on faneeleaf.com</a>
+    </p>
+
     <p class="buy-status" data-buy-status hidden role="status" aria-live="polite"></p>
 
     <div class="buy-done" data-buy-done hidden>
@@ -126,6 +137,17 @@
         and activates the app on up to five machines.
       </p>
     </div>
+
+    <!-- A plain GET, so a returning buyer gets their installer with JavaScript
+         switched off. The server decides: an unknown or cancelled key is
+         refused and nothing is sent. -->
+    <form class="buy-form buy-again" action="api/download.php" method="get"
+          data-buy-again hidden>
+      <label for="buy-key">Bought it already? Your licence key downloads it again.</label>
+      <input id="buy-key" name="key" required placeholder="FL-XXXXX-XXXXX-XXXXX-XXXXX"
+             autocomplete="off" spellcheck="false" maxlength="40">
+      <button class="btn" type="submit">Download again</button>
+    </form>
   </section>
 
   <section id="features" class="section">
@@ -206,7 +228,7 @@
           administrator rights. Windows may warn that the app is unrecognized —
           see the <a href="#faq">FAQ</a> below for why, and what to click.
         </p>
-        <a class="btn" href="https://github.com/coderererere/focuslock-site/releases/latest/download/FocusLock-Setup-x64.exe" data-download>Download FocusLock</a>
+        <a class="btn" href="#buy" data-download>Get FocusLock — <span data-price>$0.99</span></a>
       </li>
       <li>
         <h3>Pick what to switch off</h3>
@@ -312,7 +334,7 @@
   <section class="closer">
     <img src="assets/icon-256.png" width="96" height="96" alt="">
     <h2>Switch it off and get on with it</h2>
-    <a class="btn btn-big" href="https://github.com/coderererere/focuslock-site/releases/latest/download/FocusLock-Setup-x64.exe" data-download>Download for Windows</a>
+    <a class="btn btn-big" href="#buy" data-download>Get FocusLock — <span data-price>$0.99</span></a>
     <p class="fineprint"><span data-version>v2.7.0</span> · Windows 10 &amp; 11, 64-bit</p>
   </section>
 </main>
@@ -321,6 +343,6 @@
   <p>FocusLock · built with Tauri · no tracking on this page</p>
 </footer>
 
-<script src="script.js?v=2.7.0"></script>
+<script src="script.js?v=2.8.0"></script>
 </body>
 </html>

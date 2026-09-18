@@ -811,3 +811,25 @@ h1 em,
   .buy-crypto { padding: 18px 14px; }
   .buy-providers .btn { width: 100%; }
 }
+
+/* The returning buyer's key box: a licence is the download, so it sits under
+   the payment methods rather than hiding in a support page somewhere. */
+.buy-again {
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 1px solid var(--stroke);
+}
+
+.buy-again label {
+  justify-self: center;
+  text-align: center;
+}
+
+.buy-again input {
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* The link to the shop, shown only on a mirror that cannot take a payment. */
+.buy-note a { color: var(--cyan); }

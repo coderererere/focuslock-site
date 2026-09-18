@@ -52,6 +52,10 @@
     done:      panel.querySelector('[data-buy-done]'),
     key:       panel.querySelector('[data-buy-key]'),
     download:  panel.querySelector('[data-buy-download]'),
+    methods:   panel.querySelector('[data-buy-methods]'),
+    closed:    panel.querySelector('[data-buy-closed]'),
+    home:      panel.querySelector('[data-buy-home]'),
+    again:     panel.querySelector('[data-buy-again]'),
   };
 
   const STORE = 'focuslock.reference';
@@ -97,6 +101,7 @@
     });
     el.download.href = data.download_url;
     el.done.hidden = false;
+    el.methods.hidden = true;
     el.crypto.hidden = true;
     if (el.card) el.card.hidden = true;
     say('', '');
@@ -186,18 +191,46 @@
     }
   }
 
+  /* The static mirror on GitHub Pages has no PHP and can never take a
+     payment, so every button there has to lead to the host that can. */
+  function elsewhere() {
+    const link = document.querySelector('link[rel="canonical"]');
+    if (!link) return '';
+    let home;
+    try { home = new URL(link.href); } catch (e) { return ''; }
+    return home.origin === window.location.origin ? '' : home.origin + '/#buy';
+  }
+
   (async () => {
     let options = null;
     try {
       const response = await fetch('api/options.php', { headers: { Accept: 'application/json' } });
       if (response.ok) options = await response.json();
     } catch (e) {
-      /* No API here. Leave the page alone. */
+      /* No API here — handled just below. */
     }
 
     const cryptoProviders = (options && Array.isArray(options.crypto)) ? options.crypto : [];
     const card = (options && options.card && options.card.checkout_url) ? options.card : null;
-    if (!options || (!card && cryptoProviders.length === 0)) return;
+
+    /* A licence is what reaches the installer, so a buyer can always ask for
+       it again — even if every payment method were switched off tomorrow. */
+    if (options) el.again.hidden = false;
+
+    if (!card && cryptoProviders.length === 0) {
+      /* Nothing to sell. Say so rather than leaving four buttons pointing at
+         an empty panel, and send a mirror visitor to the real shop. */
+      el.closed.hidden = false;
+      const shop = elsewhere();
+      if (shop) {
+        el.home.href = shop;
+        el.home.hidden = false;
+        document.querySelectorAll('[data-download]').forEach((button) => { button.href = shop; });
+      }
+      return;
+    }
+
+    el.methods.hidden = false;
 
     if (options.price) {
       el.price.textContent = options.price;
@@ -212,8 +245,6 @@
       addProviders(cryptoProviders);
       el.crypto.hidden = false;
     }
-
-    panel.hidden = false;
 
     el.form.addEventListener('submit', (event) => {
       event.preventDefault();
