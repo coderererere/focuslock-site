@@ -1,0 +1,42 @@
+# FocusLock - faneeleaf.com
+# Everything here is static; the app itself is downloaded from a release.
+
+RewriteEngine On
+
+# Always HTTPS. The certificate is already issued for this domain.
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# One canonical hostname: www folds into the bare domain. Written against
+# %{HTTP_HOST} rather than a literal, so it survives a domain change.
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+</IfModule>
+
+# The page changes every release, so it must never be served stale - but the
+# images and stylesheet are content-addressed by release and can be held for
+# a year.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/x-icon            "access plus 1 year"
+  ExpiresByType text/css                "access plus 7 days"
+  ExpiresByType application/javascript  "access plus 7 days"
+  ExpiresByType text/html               "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  # This page has no forms, no cookies and no third-party scripts.
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+ErrorDocument 404 /index.html
