@@ -24,7 +24,14 @@
    would leave hidden elements on screen. Keep `hidden` meaning hidden. */
 [hidden] { display: none !important; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* anchors land below the sticky header instead of behind it */
+  scroll-padding-top: 76px;
+  /* iOS enlarges text on rotation without this */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 body {
   background: var(--bg);
@@ -60,8 +67,11 @@ code {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 12px max(16px, calc((100vw - var(--maxw)) / 2));
+  /* the max() keeps the bar clear of a notch in landscape */
+  padding: 12px max(16px, env(safe-area-inset-right), calc((100vw - var(--maxw)) / 2))
+           12px max(16px, env(safe-area-inset-left), calc((100vw - var(--maxw)) / 2));
   background: rgba(5, 7, 15, 0.82);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--stroke);
 }
@@ -601,6 +611,43 @@ h1 em,
   @keyframes rise {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: none; }
+  }
+}
+
+/* ---------- touch screens ----------
+   A tap leaves :hover stuck on whatever was tapped, so the lifts belong to
+   real pointers only. Anything that is a tap target also needs to be big
+   enough to hit. */
+@media (hover: none) {
+  .btn:hover,
+  .card:hover,
+  .chip:hover,
+  .mtab:hover,
+  .topbar nav a:hover { transform: none; }
+}
+
+@media (pointer: coarse) {
+  .btn-small { padding: 12px 18px; }
+  summary { padding: 16px 0; }
+  .topbar nav a { padding: 8px 0; }
+}
+
+/* ---------- iPhone safe areas ----------
+   viewport-fit=cover lets the page paint under the notch and the home
+   indicator; these put the content back inside them. The centring term stays
+   in the max() so desktop layout is untouched. */
+@supports (padding: env(safe-area-inset-left)) {
+  .hero,
+  .section,
+  .closer {
+    padding-left: max(16px, env(safe-area-inset-left), calc((100vw - var(--maxw)) / 2));
+    padding-right: max(16px, env(safe-area-inset-right), calc((100vw - var(--maxw)) / 2));
+  }
+
+  footer {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(26px, env(safe-area-inset-bottom));
   }
 }
 

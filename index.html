@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- viewport-fit=cover so the page can paint under an iPhone's notch and home
+     indicator; the CSS then pads content back out with env(safe-area-inset-*) -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
 <title>FocusLock — disable apps and websites until you turn them back on</title>
-<meta name="description" content="FocusLock disables the apps and websites that eat your day and keeps them disabled. A 1.5 MB native app for Windows — no browser bundled inside, no account, no tracking.">
+<meta name="description" content="FocusLock disables the apps and websites that eat your day and keeps them disabled. A small native app for Windows — no browser bundled inside, no account, no tracking.">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/icon-256.png">
 <link rel="stylesheet" href="styles.css">
@@ -59,7 +62,7 @@
         <a class="btn btn-ghost btn-big" href="#install">How it works</a>
       </div>
       <p class="fineprint">
-        <span data-version>v2.1.0</span> · installer, no admin rights needed ·
+        <span data-version>v2.2.0</span> · installer, no admin rights needed ·
         installs like any normal program
       </p>
       <p class="platform-note" data-platform-note hidden>
@@ -73,7 +76,7 @@
   </section>
 
   <section class="strip">
-    <div class="strip-item"><strong data-size>1.5 MB</strong><span>download</span></div>
+    <div class="strip-item"><strong data-size>2.6 MB</strong><span>download</span></div>
     <div class="strip-item"><strong>No account</strong><span>nothing to sign up for</span></div>
     <div class="strip-item"><strong>Native</strong><span>no browser bundled inside</span></div>
     <div class="strip-item"><strong>Offline</strong><span>your data stays on your PC</span></div>
@@ -142,8 +145,8 @@
     </figure>
     <figure>
       <img src="assets/shot-knight.webp" width="520" height="780"
-           alt="The same app in its Knight theme: a towering armoured knight standing in fog behind blackened steel panels, with embers drifting up the window." loading="lazy">
-      <figcaption>Tired of space? The Knight theme swaps the night sky for a knight in the fog, ash still rising.</figcaption>
+           alt="The same app in its Knight theme: an armoured knight striding through fog, the whole window bound in an ornate iron frame with a crimson banner across the title bar and stone panels beneath it." loading="lazy">
+      <figcaption>The Knight theme doesn't just repaint it — stone panels, an iron frame, a banner, and a knight marching through the fog behind it all.</figcaption>
     </figure>
   </section>
 
@@ -222,9 +225,10 @@
     <details>
       <summary>Where is my data kept?</summary>
       <p>
-        In <code>%APPDATA%\FocusLock\config.json</code>: your blocks, settings and money
-        log, in plain JSON you can read or back up. Uninstalling leaves it alone, so
-        reinstalling picks up where you left off.
+        In one SQLite database, <code>%APPDATA%\FocusLock\focuslock.db</code> — your
+        blocks, settings and money log, openable with any SQLite tool if you want to
+        query or back it up. Uninstalling leaves it alone, so reinstalling picks up
+        where you left off.
       </p>
     </details>
     <details>
@@ -236,10 +240,17 @@
       </p>
     </details>
     <details>
-      <summary>Mac or Linux?</summary>
+      <summary>Mac, Linux or iPhone?</summary>
       <p>
-        Not today. The app blocking and hosts-file blocking are written against
-        Windows, so that's the only version that exists.
+        Not today — Windows is the only version that exists. The app blocking and
+        hosts-file blocking are written against Windows.
+      </p>
+      <p>
+        iOS is a bigger story: an iPhone app simply cannot close other apps or edit a
+        hosts file, so an iOS FocusLock would have to be rebuilt on Apple's Screen
+        Time framework, which covers apps with a lock screen instead of closing them
+        and never even tells the app which apps you picked. It's a different app
+        wearing the same name, and it isn't built yet.
       </p>
     </details>
     <details>
@@ -256,7 +267,7 @@
     <img src="assets/icon-256.png" width="96" height="96" alt="">
     <h2>Switch it off and get on with it</h2>
     <a class="btn btn-big" href="https://github.com/coderererere/focuslock-site/releases/latest/download/FocusLock-Setup-x64.exe" data-download>Download for Windows</a>
-    <p class="fineprint"><span data-version>v2.1.0</span> · Windows 10 &amp; 11, 64-bit</p>
+    <p class="fineprint"><span data-version>v2.2.0</span> · Windows 10 &amp; 11, 64-bit</p>
   </section>
 </main>
 
