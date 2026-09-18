@@ -6,8 +6,8 @@
      indicator; the CSS then pads content back out with env(safe-area-inset-*) -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>FocusLock — disable apps and websites until you turn them back on</title>
-<meta name="description" content="FocusLock disables the apps and websites that eat your day and keeps them disabled. A small native app for Windows — no browser bundled inside, no account, no tracking.">
+<title>FocusLock Ã¢â‚¬â€ disable apps and websites until you turn them back on</title>
+<meta name="description" content="FocusLock disables the apps and websites that eat your day and keeps them disabled. A small native app for Windows Ã¢â‚¬â€ no browser bundled inside, no account, no tracking.">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/icon-256.png">
 <link rel="stylesheet" href="styles.css">
@@ -16,7 +16,7 @@
      domain changes. -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://faneeleaf.com/">
-<meta property="og:title" content="FocusLock — disable apps and websites until you turn them back on">
+<meta property="og:title" content="FocusLock Ã¢â‚¬â€ disable apps and websites until you turn them back on">
 <meta property="og:description" content="Disable Discord and it closes. Disable YouTube and it lands on a blocked page. A lock timer holds your choices for up to a day. Windows.">
 <meta property="og:image" content="https://faneeleaf.com/assets/social-card.jpg">
 <meta property="og:image:width" content="1200">
@@ -50,10 +50,10 @@
       <i class="comet c2"></i>
     </div>
     <div class="hero-copy">
-      <p class="eyebrow">Windows 10 &amp; 11 · 64-bit</p>
+      <p class="eyebrow">Windows 10 &amp; 11 Ã‚Â· 64-bit</p>
       <h1>Disable the distraction.<br><em>Keep</em> it disabled.</h1>
       <p class="lede">
-        Turn off Discord and it closes — and closes again every time it tries to come
+        Turn off Discord and it closes Ã¢â‚¬â€ and closes again every time it tries to come
         back. Turn off YouTube and it lands on a blocked page instead of the feed.
         Set the lock timer and your own choices are out of reach until it runs out.
       </p>
@@ -64,7 +64,7 @@
         <a class="btn btn-ghost btn-big" href="#install">How it works</a>
       </div>
       <p class="fineprint">
-        <span data-version>v2.2.1</span> · installer, no admin rights needed ·
+        <span data-version>v2.3.0</span> Ã‚Â· installer, no admin rights needed Ã‚Â·
         installs like any normal program
       </p>
       <p class="platform-note" data-platform-note hidden>
@@ -78,17 +78,58 @@
   </section>
 
   <section class="strip">
-    <div class="strip-item"><strong data-size>2.6 MB</strong><span>download</span></div>
+    <div class="strip-item"><strong data-size>2.8 MB</strong><span>download</span></div>
     <div class="strip-item"><strong>No account</strong><span>nothing to sign up for</span></div>
     <div class="strip-item"><strong>Native</strong><span>no browser bundled inside</span></div>
     <div class="strip-item"><strong>Offline</strong><span>your data stays on your PC</span></div>
+  </section>
+
+  <!-- The buy panel stays hidden until api/options.php says a payment method is
+       actually configured, so this page works unchanged before the gate is
+       live and lights up by itself afterwards. -->
+  <section id="buy" class="section buy" hidden data-buy>
+    <h2>Buy FocusLock</h2>
+    <p class="buy-lede">
+      One payment, no subscription, no account. <strong data-buy-price>$0.99</strong>
+      Ã¢â‚¬â€ and the licence activates the app on up to five of your own machines.
+    </p>
+
+    <div class="buy-methods">
+      <a class="btn btn-big" data-buy-card hidden rel="noopener">Pay by card</a>
+
+      <div class="buy-crypto" data-buy-crypto hidden>
+        <h3>Pay with crypto</h3>
+        <p class="buy-note">
+          A coin payment carries no email address, so we need one to send the
+          licence to. It is used for that and nothing else.
+        </p>
+        <form class="buy-form" data-buy-form novalidate>
+          <label for="buy-email">Email</label>
+          <input id="buy-email" type="email" name="email" required
+                 placeholder="you@example.com" autocomplete="email" spellcheck="false">
+          <div class="buy-providers" data-buy-providers></div>
+        </form>
+      </div>
+    </div>
+
+    <p class="buy-status" data-buy-status hidden role="status" aria-live="polite"></p>
+
+    <div class="buy-done" data-buy-done hidden>
+      <h3>Paid. Here is your licence.</h3>
+      <p class="buy-key"><code data-buy-key></code></p>
+      <p><a class="btn btn-big" data-buy-download rel="noopener">Download FocusLock</a></p>
+      <p class="fineprint">
+        Keep that key somewhere safe: it re-downloads the installer at any time
+        and activates the app on up to five machines.
+      </p>
+    </div>
   </section>
 
   <section id="features" class="section">
     <h2>What it actually does</h2>
     <div class="cards">
       <article class="card">
-        <h3><span aria-hidden="true">🔒</span> Apps that stay closed</h3>
+        <h3><span aria-hidden="true">ÄŸÅ¸â€â€™</span> Apps that stay closed</h3>
         <p>
           A disabled app is closed immediately, and every relaunch is closed again
           within about a second and a half. Discord Stable, PTB and Canary are covered
@@ -96,24 +137,24 @@
         </p>
       </article>
       <article class="card">
-        <h3><span aria-hidden="true">🌐</span> Websites, not just tabs</h3>
+        <h3><span aria-hidden="true">ÄŸÅ¸Å’Â</span> Websites, not just tabs</h3>
         <p>
           A small browser extension (it ships with the app) sends blocked sites to a
-          blocked page — typed in, clicked from a search result, or embedded in
+          blocked page Ã¢â‚¬â€ typed in, clicked from a search result, or embedded in
           another page. Turn on the system-wide hard block and they stop resolving
           in every app at once.
         </p>
       </article>
       <article class="card">
-        <h3><span aria-hidden="true">▶️</span> Only the bad half of YouTube</h3>
+        <h3><span aria-hidden="true">Ã¢â€“Â¶Ã¯Â¸Â</span> Only the bad half of YouTube</h3>
         <p>
           Keep the videos you came for and switch off the parts that keep you there:
-          Shorts, the home feed, the recommended sidebar, and comments — each on its
+          Shorts, the home feed, the recommended sidebar, and comments Ã¢â‚¬â€ each on its
           own toggle.
         </p>
       </article>
       <article class="card">
-        <h3><span aria-hidden="true">⏳</span> A lock timer with teeth</h3>
+        <h3><span aria-hidden="true">Ã¢ÂÂ³</span> A lock timer with teeth</h3>
         <p>
           Lock your choices for 15 minutes to 8 hours, or any length you type. While
           it runs you can tighten blocks but not loosen them, and FocusLock refuses
@@ -121,7 +162,7 @@
         </p>
       </article>
       <article class="card">
-        <h3><span aria-hidden="true">👻</span> Ghost mode</h3>
+        <h3><span aria-hidden="true">ÄŸÅ¸â€˜Â»</span> Ghost mode</h3>
         <p>
           Pins the window on top of your game or editor while never taking focus, so
           it can't swallow a keystroke. Constellations keep drawing themselves on the
@@ -129,7 +170,7 @@
         </p>
       </article>
       <article class="card">
-        <h3><span aria-hidden="true">💰</span> A money tab, because why not</h3>
+        <h3><span aria-hidden="true">ÄŸÅ¸â€™Â°</span> A money tab, because why not</h3>
         <p>
           Log profit and expenses, see the net for the day, month or year, and read a
           calendar where every day shows what it earned or cost you. Plus a list of
@@ -143,12 +184,12 @@
     <figure>
       <img src="assets/shot-money.webp" width="520" height="780"
            alt="The money tab in month view: net profit for September, a quick-add row, a calendar where each day shows its net amount, and the month's entries listed below." loading="lazy">
-      <figcaption>The money tab — net profit, and a calendar that shows each day's total.</figcaption>
+      <figcaption>The money tab Ã¢â‚¬â€ net profit, and a calendar that shows each day's total.</figcaption>
     </figure>
     <figure>
       <img src="assets/shot-knight.webp" width="520" height="780"
            alt="The same app in its Knight theme: an armoured knight striding through fog, the whole window bound in an ornate iron frame with a crimson banner across the title bar and stone panels beneath it." loading="lazy">
-      <figcaption>The Knight theme doesn't just repaint it — stone panels, an iron frame, a banner, and a knight marching through the fog behind it all.</figcaption>
+      <figcaption>The Knight theme doesn't just repaint it Ã¢â‚¬â€ stone panels, an iron frame, a banner, and a knight marching through the fog behind it all.</figcaption>
     </figure>
   </section>
 
@@ -159,7 +200,7 @@
         <h3>Download and run the installer</h3>
         <p>
           It installs for your user account only, so Windows won't ask for
-          administrator rights. Windows may warn that the app is unrecognized —
+          administrator rights. Windows may warn that the app is unrecognized Ã¢â‚¬â€
           see the <a href="#faq">FAQ</a> below for why, and what to click.
         </p>
         <a class="btn" href="https://github.com/coderererere/focuslock-site/releases/latest/download/FocusLock-Setup-x64.exe" data-download>Download FocusLock</a>
@@ -175,9 +216,9 @@
       <li>
         <h3>Add the browser extension, once</h3>
         <p>
-          Click the <strong>🧩</strong> chip in the app's title bar: it opens the
-          extension folder and shows the three steps (extensions page → Developer
-          mode → Load unpacked). Website and YouTube blocking runs through it, and it
+          Click the <strong>ÄŸÅ¸Â§Â©</strong> chip in the app's title bar: it opens the
+          extension folder and shows the three steps (extensions page Ã¢â€ â€™ Developer
+          mode Ã¢â€ â€™ Load unpacked). Website and YouTube blocking runs through it, and it
           keeps enforcing even when the app is closed.
         </p>
       </li>
@@ -193,7 +234,7 @@
     </p>
     <p>
       The point is that "just one quick scroll" stops being one click and starts being
-      a deliberate decision — which, most days, is enough.
+      a deliberate decision Ã¢â‚¬â€ which, most days, is enough.
     </p>
   </section>
 
@@ -202,7 +243,7 @@
     <details>
       <summary>Windows says "Windows protected your PC". Is something wrong?</summary>
       <p>
-        No — it means the installer isn't signed with a paid code-signing certificate,
+        No Ã¢â‚¬â€ it means the installer isn't signed with a paid code-signing certificate,
         so SmartScreen doesn't recognize it yet. Click <strong>More info</strong>, then
         <strong>Run anyway</strong>. If you'd rather not, don't install it: that warning
         is exactly the right instinct for software you didn't expect.
@@ -220,14 +261,14 @@
       <summary>Does it phone home?</summary>
       <p>
         No. There's no account, no analytics and no update check. The only network
-        listener is on 127.0.0.1 — your own machine — so the browser extension can read
+        listener is on 127.0.0.1 Ã¢â‚¬â€ your own machine Ã¢â‚¬â€ so the browser extension can read
         which sites you've blocked. Ordinary web pages are refused access to it.
       </p>
     </details>
     <details>
       <summary>Where is my data kept?</summary>
       <p>
-        In one SQLite database, <code>%APPDATA%\FocusLock\focuslock.db</code> — your
+        In one SQLite database, <code>%APPDATA%\FocusLock\focuslock.db</code> Ã¢â‚¬â€ your
         blocks, settings and money log, openable with any SQLite tool if you want to
         query or back it up. Uninstalling leaves it alone, so reinstalling picks up
         where you left off.
@@ -244,7 +285,7 @@
     <details>
       <summary>Mac, Linux or iPhone?</summary>
       <p>
-        Not today — Windows is the only version that exists. The app blocking and
+        Not today Ã¢â‚¬â€ Windows is the only version that exists. The app blocking and
         hosts-file blocking are written against Windows.
       </p>
       <p>
@@ -258,7 +299,7 @@
     <details>
       <summary>How do I uninstall it?</summary>
       <p>
-        Settings → Apps → Installed apps → FocusLock → Uninstall, like anything else.
+        Settings Ã¢â€ â€™ Apps Ã¢â€ â€™ Installed apps Ã¢â€ â€™ FocusLock Ã¢â€ â€™ Uninstall, like anything else.
         Turn off the hard block first if you had it on, so no blocked domains are left
         behind in your hosts file.
       </p>
@@ -269,12 +310,12 @@
     <img src="assets/icon-256.png" width="96" height="96" alt="">
     <h2>Switch it off and get on with it</h2>
     <a class="btn btn-big" href="https://github.com/coderererere/focuslock-site/releases/latest/download/FocusLock-Setup-x64.exe" data-download>Download for Windows</a>
-    <p class="fineprint"><span data-version>v2.2.1</span> · Windows 10 &amp; 11, 64-bit</p>
+    <p class="fineprint"><span data-version>v2.3.0</span> Ã‚Â· Windows 10 &amp; 11, 64-bit</p>
   </section>
 </main>
 
 <footer>
-  <p>FocusLock · built with Tauri · no tracking on this page</p>
+  <p>FocusLock Ã‚Â· built with Tauri Ã‚Â· no tracking on this page</p>
 </footer>
 
 <script src="script.js"></script>

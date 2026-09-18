@@ -683,3 +683,131 @@ h1 em,
   .steps li { padding-left: 0; padding-top: 54px; }
   .steps li::before { top: 0; }
 }
+
+/* ---------- buy panel ----------
+   Hidden by default in the markup and revealed by script.js only when
+   api/options.php reports a payment method that is really configured. */
+.buy {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.buy-lede {
+  color: var(--muted);
+  margin: 0 auto 26px;
+  max-width: 52ch;
+}
+
+.buy-lede strong {
+  color: var(--text);
+  font-size: 1.15em;
+}
+
+.buy-methods {
+  display: grid;
+  gap: 22px;
+  justify-items: center;
+}
+
+.buy-crypto {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  padding: 22px;
+  backdrop-filter: blur(6px);
+}
+
+.buy-crypto h3 { font-size: 18px; margin-bottom: 6px; }
+
+.buy-note {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 auto 16px;
+  max-width: 46ch;
+}
+
+.buy-form {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+.buy-form label {
+  font-size: 13.5px;
+  color: var(--muted);
+  justify-self: start;
+}
+
+.buy-form input {
+  width: 100%;
+  max-width: 360px;
+  /* 16px minimum, or iOS Safari zooms the whole page on focus */
+  font: inherit;
+  font-size: 16px;
+  color: var(--text);
+  background: rgba(5, 7, 15, 0.7);
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.buy-form input:focus-visible {
+  outline: none;
+  border-color: var(--stroke-bright);
+  box-shadow: 0 0 0 3px rgba(120, 160, 255, 0.22);
+}
+
+.buy-providers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.buy-status {
+  margin-top: 20px;
+  font-size: 15px;
+  color: var(--muted);
+  min-height: 1.4em;
+}
+
+.buy-status[data-kind="wait"]  { color: var(--cyan); }
+.buy-status[data-kind="warn"]  { color: #ffc98a; }
+
+.buy-done {
+  margin-top: 26px;
+  background: var(--panel);
+  border: 1px solid var(--stroke-bright);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.buy-done h3 { color: var(--green); margin-bottom: 14px; }
+
+.buy-key code {
+  display: inline-block;
+  /* A licence key is read aloud and typed in by hand, so it gets room and a
+     font where 8 and B are not the same shape. */
+  font-family: 'Cascadia Mono', Consolas, 'SFMono-Regular', ui-monospace, monospace;
+  font-size: clamp(15px, 4.4vw, 21px);
+  letter-spacing: 0.06em;
+  background: rgba(5, 7, 15, 0.75);
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  /* so it can be selected in one swipe on a phone */
+  user-select: all;
+  /* normal, not break-all: script.js puts a <wbr> after each dash, so the key
+     wraps between groups and never through the middle of one. The longest
+     unbreakable run is six characters, so it cannot overflow either. */
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+@media (max-width: 560px) {
+  .buy-crypto { padding: 18px 14px; }
+  .buy-providers .btn { width: 100%; }
+}
